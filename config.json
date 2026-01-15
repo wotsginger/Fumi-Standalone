@@ -1,0 +1,19 @@
+{
+  "napcat": {
+    "ws_url": "ws://127.0.0.1:3001",
+    "token": ""
+  },
+  "nats": {
+    "server": "nats://web.sitmc.club:4222"
+  },
+  "command": {
+    "blocked_prefixes": ["/", ".", "["]
+  },
+  "groups": [
+    {
+      "group_id": 623697015,
+      "subject": "test",
+      "source": "QQ"
+    }
+  ]
+}
