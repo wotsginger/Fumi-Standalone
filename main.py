@@ -4,6 +4,7 @@ from datetime import datetime
 import websockets
 from nats.aio.client import Client as NATS
 
+# ------------------ 配置 ------------------
 try:
     with open("config.json", "r", encoding="utf-8") as f:
         CONFIG = json.load(f)
@@ -11,22 +12,20 @@ except FileNotFoundError:
     print("\033[31m[错误] 找不到 config.json 文件！\033[0m")
     exit(1)
 
-WS_URL = CONFIG["napcat"]["ws_url"]
-WS_TOKEN = CONFIG["napcat"].get("token")
+WS_URL = CONFIG["ws"]["ws_url"]
+WS_TOKEN = CONFIG["ws"].get("token")
 NATS_SERVER = CONFIG["nats"]["server"]
+NATS_TOKEN = CONFIG["nats"].get("token")  # 新增
 BLOCKED_PREFIXES = tuple(CONFIG["command"].get("blocked_prefixes", []))
 GROUPS_CONFIG = CONFIG.get("groups", [])
 
-# 全局状态管理
 current_ws = None
 nc = NATS()
 subscriptions = []
 
-
 def log(category: str, message: str, color: str = "37"):
     time_str = datetime.now().strftime("%H:%M:%S")
     print(f"\033[{color}m[{time_str}] [{category}] {message}\033[0m")
-
 
 def is_ws_active(ws):
     if ws is None: return False
@@ -37,8 +36,7 @@ def is_ws_active(ws):
 
 async def send_group_msg(group_id: int, text: str):
     global current_ws
-    if not is_ws_active(current_ws):
-        return
+    if not is_ws_active(current_ws): return
     try:
         await current_ws.send(json.dumps({
             "action": "send_group_msg",
@@ -47,16 +45,18 @@ async def send_group_msg(group_id: int, text: str):
     except Exception:
         pass
 
-
 async def connect_nats():
     if not nc.is_connected:
         try:
-            await nc.connect(NATS_SERVER)
+            # 支持 token
+            options = {"servers": [NATS_SERVER]}
+            if NATS_TOKEN:
+                options["token"] = NATS_TOKEN
+            await nc.connect(**options)
             log("NATS", f"连接成功: {NATS_SERVER}", "32")
         except Exception as e:
             log("ERROR", f"NATS 连接失败: {e}", "31")
             raise e
-
 
 async def setup_forwarding():
     """根据 config 中的 groups 配置初始化所有转发任务"""
@@ -102,7 +102,6 @@ def extract_text(raw_msg):
         return "".join(s["data"]["text"] for s in raw_msg if s["type"] == "text").strip()
     return str(raw_msg).strip()
 
-
 async def handle_qq_message(event: dict):
     """处理 QQ 消息并发布到 NATS"""
     if event.get("post_type") != "message" or event.get("message_type") != "group":
@@ -135,8 +134,7 @@ async def main():
 
     while True:
         try:
-            log("SYSTEM", f"连接 NapCat WebSocket: {WS_URL}", "32")
-            # 这里的参数名必须是 extra_headers (websockets 12.0 标准)
+            log("SYSTEM", f"连接 WebSocket: {WS_URL}", "32")
             async with websockets.connect(WS_URL, extra_headers=headers) as ws:
                 current_ws = ws
                 log("SYSTEM", "WebSocket 连接成功", "32")
@@ -164,7 +162,6 @@ async def main():
 
             await asyncio.sleep(retry_delay)
             retry_delay = min(retry_delay * 2, 30)
-
 
 if __name__ == "__main__":
     try:

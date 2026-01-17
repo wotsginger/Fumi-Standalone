@@ -1,10 +1,11 @@
 {
-  "napcat": {
+  "ws": {
     "ws_url": "ws://127.0.0.1:3001",
     "token": ""
   },
   "nats": {
-    "server": "nats://web.sitmc.club:4222"
+    "server": "nats://web.sitmc.club:4222",
+    "token": ""
   },
   "command": {
     "blocked_prefixes": ["/", ".", "["]
