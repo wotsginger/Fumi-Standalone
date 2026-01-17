@@ -8,6 +8,22 @@ Fumi 是一个基于 [NATS 服务器](https://github.com/nats-io) 的消息转�
 
 所有消息会按照统一的格式发送到 NATS 中心服务器上，再分别由各个客户端进行解析。
 
+目前实现的平台和即将进行适配的平台。
+
+| 平台                  | 支持状况 | 项目地址 |
+|---------------------|------|---|
+| Bikkit/Spigot/Paper | 已支持  |[地址](https://github.com/wotsginger/Fumi-Spigot)|
+| QQ（Standalone）      | 已支持  |你在这里|
+| QQ（Nonebot）         | 已支持  |暂未发布|
+| Forge               | 已支持  |暂未发布|
+| Fabric              | 待支持  |暂未发布|
+| KOOK                | 计划中  |暂未发布|
+| Oopz                | 计划中  |暂未发布|
+| Discord             | 计划中  |暂未发布|
+
+实际上来说，只需要支持将消息以 `{"source":"","message":"","username":""}` 发送到NATS并支持解析从NATS接收到的信息并发送到聊天中就可以适配对应的平台，如果您有能力完全可以开发对应的第三方客户端。
+
+
 ---
 
 ## 🚀 快速开始
