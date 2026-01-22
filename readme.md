@@ -16,7 +16,7 @@ Fumi 是一个基于 [NATS 服务器](https://github.com/nats-io) 的消息转�
 | QQ（Standalone）      | 已支持  |你在这里|
 | QQ（Nonebot）         | 已支持  |暂未发布|
 | Forge               | 已支持  |暂未发布|
-| Fabric              | 待支持  |暂未发布|
+| Fabric              | 已支持  |[地址](https://github.com/wotsginger/Fumi-Fabric)|
 | KOOK                | 计划中  |暂未发布|
 | Oopz                | 计划中  |暂未发布|
 | Discord             | 计划中  |暂未发布|
