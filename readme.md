@@ -13,7 +13,7 @@ Fumi 是一个基于 [NATS 服务器](https://github.com/nats-io) 的消息转�
 | 平台                  | 支持状况 | 项目地址 |
 |---------------------|------|---|
 | Bikkit/Spigot/Paper | 已支持  |[地址](https://github.com/wotsginger/Fumi-Spigot)|
-| Fabric/Neoforge              | 已支持  |[地址](https://github.com/wotsginger/Fumi-Fabric)|
+| Fabric/Neoforge              | 已支持  |[地址](https://github.com/wotsginger/Fumi-Mod)|
 | QQ（Standalone）      | 已支持  |你在这里|
 | QQ（Nonebot）         | 已支持  |暂未发布|
 | Forge               | 已支持  |暂未发布|
